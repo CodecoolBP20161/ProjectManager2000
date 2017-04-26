@@ -10,8 +10,9 @@ namespace ProjectManager2000.Util
 {
     class FileLogger
     {
-        public string FileName { get; set; }
         private const string LogPath = "logs/";
+
+        public string FileName { get; }
 
         public FileLogger(string fileName)
         {
@@ -19,16 +20,28 @@ namespace ProjectManager2000.Util
             Directory.CreateDirectory("logs");
 
             if (File.Exists(LogPath + FileName)) return;
-            var file = File.CreateText(LogPath + FileName);
+            StreamWriter file = File.CreateText(LogPath + FileName);
             file.Close();
         }
 
         public void SaveLog(string eventDescripion)
         {
-            var file = File.AppendText(LogPath + FileName);
+            StreamWriter file = File.AppendText(LogPath + FileName);
             file.WriteLine(DateTime.Now + " " + eventDescripion);
             file.Close();
         }
 
+        public List<string> GetLogs()
+        {
+            var logs = new List<string>();
+            StreamReader file = File.OpenText(LogPath + FileName);
+            string currentLine;
+            while ((currentLine = file.ReadLine()) != null)
+            {
+                logs.Add(currentLine);
+            }
+            return logs;
+        }
+       
     }
 }
