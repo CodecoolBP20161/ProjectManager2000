@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using ProjectManager2000.Util;
 
 namespace ProjectManager2000
 {
@@ -20,9 +21,22 @@ namespace ProjectManager2000
     /// </summary>
     public partial class MainWindow : Window
     {
+        private readonly FileLogger _fileLogger = new FileLogger("testLog");
+        private List<string> _logList;
+
         public MainWindow()
         {
             InitializeComponent();
+            _fileLogger.SaveLog("app started!");
+            LogChooser.Minimum = 0;
+            LogChooser.Maximum = _fileLogger.GetLogs().Count - 1;
+            _logList = _fileLogger.GetLogs();
+            TestLabel.Content = _logList[0];
+        }
+
+        private void LogChooser_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            TestLabel.Content = _logList[(int) LogChooser.Value];
         }
     }
 }
