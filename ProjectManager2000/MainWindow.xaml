@@ -14,8 +14,22 @@
             <TabItem Header="Project Management">
                 <Grid Background="#FFE5E5E5"/>
             </TabItem>
-            <TabItem Header="Logs">
-                <Grid Background="#FFE5E5E5"/>
+            <TabItem Header="Logs" Height="22" VerticalAlignment="Top">
+                <Grid Background="#FFE5E5E5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*" />
+                        <RowDefinition Height="9*" />
+                    </Grid.RowDefinitions>
+
+                    <ListView x:Name="LogList" Grid.Row="1" HorizontalAlignment="Stretch" Margin="10,10,10,10" VerticalAlignment="Stretch" LayoutUpdated="LogList_LayoutUpdated">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn x:Name="LogListColumn"/>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                    <ComboBox x:Name="LogFilesDropDown" HorizontalAlignment="Left" Height="23" Margin="10,10,0,0" VerticalAlignment="Top" Width="194" SelectionChanged="LogFilesDropDown_SelectionChanged"/>
+                </Grid>
             </TabItem>
         </TabControl>
 
