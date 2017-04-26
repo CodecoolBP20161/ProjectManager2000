@@ -16,13 +16,21 @@ using System.Windows.Shapes;
 namespace ProjectManager2000
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for MainPage.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainPage : Page
     {
-        public MainWindow()
+
+        public MainPage()
         {
             InitializeComponent();
+        }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            LogPage logPage = new LogPage();
+            NavigationService navigationService = NavigationService.GetNavigationService(this);
+            navigationService?.Navigate(logPage);
         }
     }
 }
