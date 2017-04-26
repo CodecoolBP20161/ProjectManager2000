@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace ProjectManager2000
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for TestPage2.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class TestPage2 : Page
     {
-        public MainWindow()
+        public TestPage2()
         {
             InitializeComponent();
         }
