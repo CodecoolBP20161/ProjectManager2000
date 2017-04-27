@@ -29,6 +29,7 @@
                         </ListView.View>
                     </ListView>
                     <ComboBox x:Name="LogFilesDropDown" HorizontalAlignment="Left" Height="23" Margin="10,10,0,0" VerticalAlignment="Top" Width="194" SelectionChanged="LogFilesDropDown_SelectionChanged"/>
+                    <Button x:Name="RefreshLogsBtn" Content="Refresh logs" HorizontalAlignment="Left" Margin="225,10,0,0" VerticalAlignment="Top" Width="73" Height="23" Click="RefreshLogsBtn_Click"/>
                 </Grid>
             </TabItem>
         </TabControl>
