@@ -21,32 +21,43 @@ namespace ProjectManager2000
     /// </summary>
     public partial class MainWindow : Window
     {
+        private readonly FileLogger logger = new FileLogger("logs");
+
         public MainWindow()
         {
             InitializeComponent();
             RenderLogTab();
+
         }
 
         private void RenderLogTab()
         {
+            logger.SaveLog("Renderin Log Tab", FileLogger.LogType.Debug);
+
             string[] logFiles = Directory.GetFiles("logs/").Select(System.IO.Path.GetFileName).ToArray();
             LogFilesDropDown.ItemsSource = logFiles;
             LogFilesDropDown.SelectedItem = LogFilesDropDown.Items[0];
 
             FileLogger fileLogger = new FileLogger(logFiles[0]);
-            LogList.ItemsSource = fileLogger.GetLogs();
+            LogDataGrid.ItemsSource = fileLogger.GetLogs();
         }
 
         private void LogFilesDropDown_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            FileLogger fileLogger = new FileLogger(LogFilesDropDown.SelectedItem.ToString());
-            LogList.ItemsSource = fileLogger.GetLogs();
-            LogListColumn.Width = LogList.ActualWidth;
+            string selectedLog = LogFilesDropDown.SelectedItem.ToString();
+
+            logger.SaveLog("Changed to log file: " + selectedLog);
+
+            FileLogger fileLogger = new FileLogger(selectedLog);
+            LogDataGrid.ItemsSource = fileLogger.GetLogs();
         }
 
-        private void LogList_LayoutUpdated(object sender, EventArgs e)
+        private void RefreshLogsBtn_Click(object sender, RoutedEventArgs e)
         {
-            LogListColumn.Width = LogList.ActualWidth;
+            logger.SaveLog("Refreshing logs list");
+
+            FileLogger fileLogger = new FileLogger(LogFilesDropDown.SelectedItem.ToString());
+            LogDataGrid.ItemsSource = fileLogger.GetLogs();
         }
     }
 }

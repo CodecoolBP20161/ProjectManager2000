@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ProjectManager2000.Model;
 
 namespace ProjectManager2000.Util
 {
@@ -13,6 +15,7 @@ namespace ProjectManager2000.Util
         private const string LogPath = "logs/";
 
         public string FileName { get; }
+        private StreamWriter fileWriter;
 
         public FileLogger(string fileName)
         {
@@ -20,28 +23,47 @@ namespace ProjectManager2000.Util
             Directory.CreateDirectory("logs");
 
             if (File.Exists(LogPath + FileName)) return;
-            StreamWriter file = File.CreateText(LogPath + FileName);
-            file.Close();
+            fileWriter = File.CreateText(LogPath + FileName);
+            fileWriter.Close();
         }
 
-        public void SaveLog(string eventDescripion)
+        public void SaveLog(string eventDescripion, LogType logType = LogType.Info)
         {
-            StreamWriter file = File.AppendText(LogPath + FileName);
-            file.WriteLine(DateTime.Now + " " + eventDescripion);
-            file.Close();
+            LogModel logModel = new LogModel(eventDescripion, logType);
+            fileWriter = File.AppendText(LogPath + FileName);
+            fileWriter.WriteLine(logModel);
+            fileWriter.Close();
         }
 
-        public List<string> GetLogs()
+        public List<LogModel> GetLogs()
         {
-            var logs = new List<string>();
-            StreamReader file = File.OpenText(LogPath + FileName);
-            string currentLine;
-            while ((currentLine = file.ReadLine()) != null)
+            List<LogModel> logModels = new List<LogModel>();
+            List<string> listOfLogStrings = File.ReadLines(LogPath + FileName).ToList();
+            foreach (string logString in listOfLogStrings)
             {
-                logs.Add(currentLine);
+                if (logString.Equals("")) return logModels;
+                var logDatasList = logString.Split(new[]{" -- "}, StringSplitOptions.None);
+                LogModel logModel = new LogModel(logDatasList[2], ParseLogType(logDatasList[1]))
+                {
+                    LogTime = DateTime.ParseExact(logDatasList[0], "MM-dd-yy H:mm:ss", CultureInfo.InvariantCulture)
+                };
+                logModels.Add(logModel);
             }
-            return logs;
+            return logModels;
         }
-       
+
+        internal enum LogType { Info, Error, Debug }
+
+        private LogType ParseLogType(string type)
+        {
+            switch (type)
+            {
+                case "Error":
+                    return LogType.Error;
+                case "Debug":
+                    return LogType.Debug;
+            }
+            return LogType.Info;
+        }
     }
 }
