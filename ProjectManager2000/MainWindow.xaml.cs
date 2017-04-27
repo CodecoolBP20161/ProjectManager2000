@@ -67,10 +67,19 @@ namespace ProjectManager2000
         }
         private void DeleteButton_Click(object sender, EventArgs e)
         {
-            projectDAO.DeleteProject(selectedItem);
-            ProjectListMan.ItemsSource = projectDAO.getAll();
-        }
+            try
+            {
+                projectDAO.DeleteProject(selectedItem);
+            }
+            catch (Exception)
+            {
 
+            }
+            finally
+            {
+                ProjectListMan.ItemsSource = projectDAO.getAll();
+            }
+        }
         private void CreateButton_Click(object sender, RoutedEventArgs e)
         {
             String projectName = projectNameInput.Text;
