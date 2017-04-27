@@ -39,7 +39,7 @@ namespace ProjectManager2000
             LogFilesDropDown.SelectedItem = LogFilesDropDown.Items[0];
 
             FileLogger fileLogger = new FileLogger(logFiles[0]);
-            LogList.ItemsSource = fileLogger.GetLogs();
+            LogDataGrid.ItemsSource = fileLogger.GetLogs();
         }
 
         private void LogFilesDropDown_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -49,13 +49,7 @@ namespace ProjectManager2000
             logger.SaveLog("Changed to log file: " + selectedLog);
 
             FileLogger fileLogger = new FileLogger(selectedLog);
-            LogList.ItemsSource = fileLogger.GetLogs();
-            LogListColumn.Width = LogList.ActualWidth;
-        }
-
-        private void LogList_LayoutUpdated(object sender, EventArgs e)
-        {
-            LogListColumn.Width = LogList.ActualWidth;
+            LogDataGrid.ItemsSource = fileLogger.GetLogs();
         }
 
         private void RefreshLogsBtn_Click(object sender, RoutedEventArgs e)
@@ -63,7 +57,7 @@ namespace ProjectManager2000
             logger.SaveLog("Refreshing logs list");
 
             FileLogger fileLogger = new FileLogger(LogFilesDropDown.SelectedItem.ToString());
-            LogList.ItemsSource = fileLogger.GetLogs();
+            LogDataGrid.ItemsSource = fileLogger.GetLogs();
         }
     }
 }
