@@ -23,6 +23,39 @@ namespace ProjectManager2000
         public MainWindow()
         {
             InitializeComponent();
+            System.Media.SoundPlayer buttonMusic = new System.Media.SoundPlayer(@"C:\Windows\Media\tada.wav");
+            buttonMusic.PlayLooping();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            System.Media.SoundPlayer buttonMusic = new System.Media.SoundPlayer(@"C:\Windows\Media\recycle.wav");
+            buttonMusic.Play();
+        }
+
+        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            string[] myList = new string[4];
+
+            myList[0] = "One";
+            myList[1] = "Two";
+            myList[2] = "Three";
+            myList[3] = "Four";
+
+            foreach (String element in myList)
+            {
+                projekts.Items.Add(element);
+            }          
+        }
+
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
         }
     }
 }
