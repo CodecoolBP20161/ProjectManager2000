@@ -57,5 +57,13 @@ namespace ProjectManager2000
         {
             LogListColumn.Width = LogList.ActualWidth;
         }
+
+        private void RefreshLogsBtn_Click(object sender, RoutedEventArgs e)
+        {
+            logger.SaveLog("Refreshing logs list");
+
+            FileLogger fileLogger = new FileLogger(LogFilesDropDown.SelectedItem.ToString());
+            LogList.ItemsSource = fileLogger.GetLogs();
+        }
     }
 }
