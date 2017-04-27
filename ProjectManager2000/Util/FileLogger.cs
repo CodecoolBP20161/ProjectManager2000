@@ -13,6 +13,7 @@ namespace ProjectManager2000.Util
         private const string LogPath = "logs/";
 
         public string FileName { get; }
+        private StreamWriter fileWriter;
 
         public FileLogger(string fileName)
         {
@@ -20,28 +21,22 @@ namespace ProjectManager2000.Util
             Directory.CreateDirectory("logs");
 
             if (File.Exists(LogPath + FileName)) return;
-            StreamWriter file = File.CreateText(LogPath + FileName);
-            file.Close();
+            fileWriter = File.CreateText(LogPath + FileName);
+            fileWriter.Close();
         }
 
-        public void SaveLog(string eventDescripion)
+        public void SaveLog(string eventDescripion, LogType logType = LogType.Info)
         {
-            StreamWriter file = File.AppendText(LogPath + FileName);
-            file.WriteLine(DateTime.Now + " " + eventDescripion);
-            file.Close();
+            fileWriter = File.AppendText(LogPath + FileName);
+            fileWriter.WriteLine("{0:MM/dd/yy H:mm:ss} -- {1} -- {2}", DateTime.Now, logType, eventDescripion);
+            fileWriter.Close();
         }
 
         public List<string> GetLogs()
         {
-            var logs = new List<string>();
-            StreamReader file = File.OpenText(LogPath + FileName);
-            string currentLine;
-            while ((currentLine = file.ReadLine()) != null)
-            {
-                logs.Add(currentLine);
-            }
-            return logs;
+            return File.ReadLines(LogPath + FileName).ToList();
         }
-       
+
+        internal enum LogType { Info, Error, Debug}
     }
 }
