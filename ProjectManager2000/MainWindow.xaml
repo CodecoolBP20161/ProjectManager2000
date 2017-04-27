@@ -26,24 +26,14 @@
                         <ColumnDefinition Width="3*" />
                     </Grid.ColumnDefinitions>
                     <Button Grid.Column="0" Grid.Row="0" Name="Delete" Content="Delete" HorizontalAlignment="Center" Margin="0,5,0,0" 
-                                Width="75"  RenderTransformOrigin="-0.733,0.476" Click="Button_Click" Height="21" VerticalAlignment="Top" />
-                    <ListView x:Name="ProjectListMan" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Stretch" Margin="5,5,0,5" VerticalAlignment="Stretch" LayoutUpdated="LogList_LayoutUpdated" SelectionChanged="ProjectListMan_SelectionChanged">
+                                Width="75"  RenderTransformOrigin="-0.733,0.476" Click="DeleteButton_Click" Height="21" VerticalAlignment="Top" />
+                    <ListView x:Name="ProjectListMan" SelectionMode="Single" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Stretch" Margin="5,5,0,5" VerticalAlignment="Stretch" LayoutUpdated="LogList_LayoutUpdated" SelectionChanged="ProjectListMan_SelectionChanged">
                         <ListView.View>
                             <GridView>
-                                <GridViewColumn Header="Name"   Width="Auto">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <TextBlock Text="{Binding Name}"/>
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
-                                <GridViewColumn Header="Created"  Width="Auto">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <TextBlock Text="{Binding timeOfCreation}" />
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
+                                <GridViewColumn Header="Id"   Width="Auto" DisplayMemberBinding="{Binding Id, UpdateSourceTrigger=PropertyChanged}" />
+                                <GridViewColumn Header="Name"   Width="Auto" DisplayMemberBinding="{Binding Name, UpdateSourceTrigger=PropertyChanged}" />
+                                <GridViewColumn Header="Description"   Width="Auto" DisplayMemberBinding="{Binding Description, UpdateSourceTrigger=PropertyChanged}" />
+                                <GridViewColumn Header="Created"   Width="Auto" DisplayMemberBinding="{Binding TimeOfCreation, UpdateSourceTrigger=PropertyChanged}" />
                             </GridView>
                         </ListView.View>
                     </ListView>
@@ -60,10 +50,10 @@
                         </Grid.ColumnDefinitions>
 
                         <Button Grid.Column="1" Grid.Row="2" Name="Create" Content="Create" HorizontalAlignment="Center" Margin="10,10,10,10" 
-                                VerticalAlignment="Bottom" Width="75" Click="Button_Click" />
+                                VerticalAlignment="Bottom" Width="75" Click="CreateButton_Click" />
 
-                        <TextBox Grid.Column="1" Grid.Row="0" HorizontalAlignment="Stretch" Height="23" Margin="10,5,10,0" TextWrapping="NoWrap" Text="Name" VerticalAlignment="Top" />
-                        <RichTextBox Grid.Column="1" Grid.Row="1" HorizontalAlignment="Stretch"  Margin="10,0,10,0" VerticalAlignment="Stretch">
+                        <TextBox Name="projectNameInput" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Stretch" Height="23" Margin="10,5,10,0" TextWrapping="NoWrap" Text="Name" VerticalAlignment="Top" />
+                        <RichTextBox Name="projectDescInput" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Stretch"  Margin="10,0,10,0" VerticalAlignment="Stretch">
                             <FlowDocument>
                                 <Paragraph>
                                     <Run Text="Description"/>
@@ -77,22 +67,23 @@
             <TabItem Header="Logs" Height="22" VerticalAlignment="Top">
                 <Grid Background="#FFE5E5E5">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="25*"/>
-                        <ColumnDefinition Width="33*"/>
+                        <ColumnDefinition Width="40*"/>
+                        <ColumnDefinition Width="135*"/>
+                        <ColumnDefinition Width="231*"/>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="1*" />
                         <RowDefinition Height="9*" />
                     </Grid.RowDefinitions>
 
-                    <ListView x:Name="LogList" Grid.Row="1" HorizontalAlignment="Stretch" Margin="10,10,10,10" VerticalAlignment="Stretch" LayoutUpdated="LogList_LayoutUpdated" Grid.ColumnSpan="2">
+                    <ListView x:Name="LogList" Grid.Row="1" HorizontalAlignment="Stretch" Margin="10,10,10,10" VerticalAlignment="Stretch" LayoutUpdated="LogList_LayoutUpdated" Grid.ColumnSpan="3" SelectionChanged="LogList_SelectionChanged">
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn x:Name="LogListColumn"/>
                             </GridView>
                         </ListView.View>
                     </ListView>
-                    <ComboBox x:Name="LogFilesDropDown" HorizontalAlignment="Left" Height="23" Margin="10,10,0,0" VerticalAlignment="Top" Width="194" SelectionChanged="LogFilesDropDown_SelectionChanged" Grid.ColumnSpan="2" Grid.RowSpan="2"/>
+                    <ComboBox x:Name="LogFilesDropDown" HorizontalAlignment="Left" Height="23" Margin="10,10,0,0" VerticalAlignment="Top" Width="194" SelectionChanged="LogFilesDropDown_SelectionChanged" Grid.ColumnSpan="3" Grid.RowSpan="2"/>
                 </Grid>
             </TabItem>
         </TabControl>

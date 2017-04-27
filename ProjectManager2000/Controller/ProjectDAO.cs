@@ -51,7 +51,7 @@ namespace ProjectManager2000.Controller
                 while ((line = reader.ReadLine()) != null)
                 {
                     String[] split = line.Split(',');
-                    if (Convert.ToInt64(split[0]) == project.id)
+                    if (Convert.ToInt64(split[0]) == project.Id)
                     {
                         line = project.ToString();
                     }
@@ -64,7 +64,7 @@ namespace ProjectManager2000.Controller
             {
                 {
                     foreach (String newline in lines)
-                        writer.WriteLine(newline);
+                        writer.WriteLine(newline.Trim());
                 }
             }
         }
@@ -78,7 +78,7 @@ namespace ProjectManager2000.Controller
                 while ((line = reader.ReadLine()) != null)
                 {
                     String[] split = line.Split(',');
-                    if (Convert.ToInt64(split[0]) == project.id)
+                    if (Convert.ToInt64(split[0]) == project.Id)
                     {
                         return true;
                     }
@@ -99,13 +99,13 @@ namespace ProjectManager2000.Controller
                 while ((line = reader.ReadLine()) != null)
                 {
                     String[] split = line.Split(',');
-                    if (!(Convert.ToInt64(split[0]) == project.id)) lines.Add(line);
+                    if (!(Convert.ToInt64(split[0]) == project.Id)) lines.Add(line);
                 }
             }
             using (StreamWriter writer = new StreamWriter(Path + FileName, false))
             {
                     foreach (String newline in lines)
-                        writer.WriteLine(newline);
+                        writer.WriteLine(newline.Trim());
             }
         }
     }

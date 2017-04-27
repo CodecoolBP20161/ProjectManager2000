@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using ProjectManager2000.Util;
 using ProjectManager2000.Controller;
+using ProjectManager2000.Model;
 
 namespace ProjectManager2000
 {
@@ -23,10 +24,12 @@ namespace ProjectManager2000
     public partial class MainWindow : Window
     {
         private ProjectDAO projectDAO;
+        private Project selectedItem;
         public MainWindow()
         {
             projectDAO = new ProjectDAO();
             InitializeComponent();
+            this.DataContext = this;
             //RenderLogTab();
             renderManageTab();
         }
@@ -42,6 +45,10 @@ namespace ProjectManager2000
         }
         private void renderManageTab()
         {
+            projectDAO.SaveProject(new Project("Volunti", "Nice thing"));
+            projectDAO.SaveProject(new Project("HCCRM", "even nicer thing"));
+            projectDAO.SaveProject(new Project("Pisálnomkell.hu", "the whole world is a toilet!"));
+            projectDAO.SaveProject(new Project("Test Project4", "whatever"));
             ProjectListMan.ItemsSource = projectDAO.getAll();
 
 
@@ -58,13 +65,26 @@ namespace ProjectManager2000
         {
             LogListColumn.Width = LogList.ActualWidth;
         }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void DeleteButton_Click(object sender, EventArgs e)
         {
+            projectDAO.DeleteProject(selectedItem);
+            ProjectListMan.ItemsSource = projectDAO.getAll();
+        }
 
+        private void CreateButton_Click(object sender, RoutedEventArgs e)
+        {
+            String projectName = projectNameInput.Text;
+            String projectDesc = new TextRange(projectDescInput.Document.ContentStart, projectDescInput.Document.ContentEnd).Text.Replace(Environment.NewLine, " ");
+            projectDAO.SaveProject(new Project(projectName, projectDesc));
+            ProjectListMan.ItemsSource = projectDAO.getAll();
         }
 
         private void ProjectListMan_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            selectedItem = (Project) ProjectListMan.SelectedItem;
+        }
+
+        private void LogList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
         }
