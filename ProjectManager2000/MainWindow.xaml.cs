@@ -29,8 +29,7 @@ namespace ProjectManager2000
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            System.Media.SoundPlayer buttonMusic = new System.Media.SoundPlayer(@"C:\Windows\Media\recycle.wav");
-            buttonMusic.Play();
+           
         }
 
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)

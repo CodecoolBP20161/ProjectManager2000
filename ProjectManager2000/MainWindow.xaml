@@ -10,10 +10,13 @@
         <TabControl HorizontalAlignment="Left" Height="320" VerticalAlignment="Top" Width="517">
             <TabItem Header="Projekts">
                 <Grid Background="#FFE5E5E5">
-                    <TextBox HorizontalAlignment="Left" Height="23" Margin="211,29,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="209" TextChanged="TextBox_TextChanged"/>
+                    <TextBox HorizontalAlignment="Left" Height="25" Margin="343,173,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="154" TextChanged="TextBox_TextChanged"/>
                     <ListBox x:Name="projekts" HorizontalAlignment="Left" Height="243" Margin="10,29,0,0" VerticalAlignment="Top" Width="154" SelectionChanged="ListBox_SelectionChanged">
                         <ListBoxItem Content="Valami&#xD;&#xA;" Height="83"/>
                     </ListBox>
+                    <TextBlock HorizontalAlignment="Left" Margin="204,29,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" Height="67" Width="273"/>
+                    <Button Content="Button" HorizontalAlignment="Left" Margin="422,203,0,0" VerticalAlignment="Top" Width="75"/>
+                    <ListBox HorizontalAlignment="Left" Height="155" Margin="169,117,0,0" VerticalAlignment="Top" Width="132"/>
                 </Grid>
             </TabItem>
             <TabItem Header="Companys">
