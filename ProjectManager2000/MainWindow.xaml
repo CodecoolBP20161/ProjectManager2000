@@ -7,28 +7,92 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="387" Width="424">
     <Grid>
-        <TabControl HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="45*"/>
+            <ColumnDefinition Width="59*"/>
+        </Grid.ColumnDefinitions>
+        <TabControl HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.ColumnSpan="2">
             <TabItem Header="Assign to Projects">
                 <Grid Background="#FFE5E5E5"/>
             </TabItem>
             <TabItem Header="Project Management">
-                <Grid Background="#FFE5E5E5"/>
-            </TabItem>
-            <TabItem Header="Logs" Height="22" VerticalAlignment="Top">
                 <Grid Background="#FFE5E5E5">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="1*" />
                         <RowDefinition Height="9*" />
                     </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*" />
+                        <ColumnDefinition Width="3*" />
+                    </Grid.ColumnDefinitions>
+                    <Button Grid.Column="0" Grid.Row="0" Name="Delete" Content="Delete" HorizontalAlignment="Center" Margin="0,5,0,0" 
+                                Width="75"  RenderTransformOrigin="-0.733,0.476" Click="Button_Click" Height="21" VerticalAlignment="Top" />
+                    <ListView x:Name="ProjectListMan" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Stretch" Margin="5,5,0,5" VerticalAlignment="Stretch" LayoutUpdated="LogList_LayoutUpdated" SelectionChanged="ProjectListMan_SelectionChanged">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="Name"   Width="Auto">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Name}"/>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn Header="Created"  Width="Auto">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding timeOfCreation}" />
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
 
-                    <ListView x:Name="LogList" Grid.Row="1" HorizontalAlignment="Stretch" Margin="10,10,10,10" VerticalAlignment="Stretch" LayoutUpdated="LogList_LayoutUpdated">
+
+                    <Grid Grid.Column="1" HorizontalAlignment="Stretch"  Margin="0,0,0,0" Grid.Row="1" VerticalAlignment="Stretch" Background="#FFE5E5E5">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="2*" />
+                            <RowDefinition Height="4*" />
+                            <RowDefinition Height="2*" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="4*" />
+                        </Grid.ColumnDefinitions>
+
+                        <Button Grid.Column="1" Grid.Row="2" Name="Create" Content="Create" HorizontalAlignment="Center" Margin="10,10,10,10" 
+                                VerticalAlignment="Bottom" Width="75" Click="Button_Click" />
+
+                        <TextBox Grid.Column="1" Grid.Row="0" HorizontalAlignment="Stretch" Height="23" Margin="10,5,10,0" TextWrapping="NoWrap" Text="Name" VerticalAlignment="Top" />
+                        <RichTextBox Grid.Column="1" Grid.Row="1" HorizontalAlignment="Stretch"  Margin="10,0,10,0" VerticalAlignment="Stretch">
+                            <FlowDocument>
+                                <Paragraph>
+                                    <Run Text="Description"/>
+                                    <Run Text="about your Project"/>
+                                </Paragraph>
+                            </FlowDocument>
+                        </RichTextBox>
+                    </Grid>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Logs" Height="22" VerticalAlignment="Top">
+                <Grid Background="#FFE5E5E5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="25*"/>
+                        <ColumnDefinition Width="33*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*" />
+                        <RowDefinition Height="9*" />
+                    </Grid.RowDefinitions>
+
+                    <ListView x:Name="LogList" Grid.Row="1" HorizontalAlignment="Stretch" Margin="10,10,10,10" VerticalAlignment="Stretch" LayoutUpdated="LogList_LayoutUpdated" Grid.ColumnSpan="2">
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn x:Name="LogListColumn"/>
                             </GridView>
                         </ListView.View>
                     </ListView>
-                    <ComboBox x:Name="LogFilesDropDown" HorizontalAlignment="Left" Height="23" Margin="10,10,0,0" VerticalAlignment="Top" Width="194" SelectionChanged="LogFilesDropDown_SelectionChanged"/>
+                    <ComboBox x:Name="LogFilesDropDown" HorizontalAlignment="Left" Height="23" Margin="10,10,0,0" VerticalAlignment="Top" Width="194" SelectionChanged="LogFilesDropDown_SelectionChanged" Grid.ColumnSpan="2" Grid.RowSpan="2"/>
                 </Grid>
             </TabItem>
         </TabControl>

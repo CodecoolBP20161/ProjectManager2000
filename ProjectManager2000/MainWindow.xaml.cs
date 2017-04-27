@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using ProjectManager2000.Util;
+using ProjectManager2000.Controller;
 
 namespace ProjectManager2000
 {
@@ -21,10 +22,13 @@ namespace ProjectManager2000
     /// </summary>
     public partial class MainWindow : Window
     {
+        private ProjectDAO projectDAO;
         public MainWindow()
         {
+            projectDAO = new ProjectDAO();
             InitializeComponent();
-            RenderLogTab();
+            //RenderLogTab();
+            renderManageTab();
         }
 
         private void RenderLogTab()
@@ -35,6 +39,12 @@ namespace ProjectManager2000
 
             FileLogger fileLogger = new FileLogger(logFiles[0]);
             LogList.ItemsSource = fileLogger.GetLogs();
+        }
+        private void renderManageTab()
+        {
+            ProjectListMan.ItemsSource = projectDAO.getAll();
+
+
         }
 
         private void LogFilesDropDown_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -47,6 +57,16 @@ namespace ProjectManager2000
         private void LogList_LayoutUpdated(object sender, EventArgs e)
         {
             LogListColumn.Width = LogList.ActualWidth;
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ProjectListMan_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
         }
     }
 }

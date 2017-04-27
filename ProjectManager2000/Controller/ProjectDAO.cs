@@ -10,15 +10,13 @@ namespace ProjectManager2000.Controller
 {
     class ProjectDAO
     {
-        public string FileName { get; set; }
         private const string Path = "Data/";
+        private const string FileName = "Projects";
 
         public ProjectDAO()
         {
-            FileName = "Projects";
+           
             Directory.CreateDirectory("Data");
-
-            if (File.Exists(Path + FileName)) return;
             var file = File.CreateText(Path + FileName);
             file.Close();
         }
@@ -36,7 +34,8 @@ namespace ProjectManager2000.Controller
 
         public List<Project> getAll()
         {
-            List<string> allProjects = File.ReadAllLines(FileName).ToList();
+            List<string> allProjects = File.ReadAllLines(Path + FileName).ToList();
+            if (allProjects.Count == 0) return null;
             var projects = new List<Project>();
             allProjects.ForEach((projectString) => projects.Add(Project.fromString(projectString)));
             return projects;
