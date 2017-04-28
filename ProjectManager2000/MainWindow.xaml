@@ -1,34 +1,50 @@
-﻿<Window x:Class="ProjectManager2000.MainWindow"
+﻿<Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ProjectManager2000"
+        xmlns:Controller="clr-namespace:ProjectManager2000.Controller" x:Class="ProjectManager2000.MainWindow"
         mc:Ignorable="d"
         Title="MainWindow" Height="387" Width="424">
     <Grid>
         <TabControl HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <TabItem Header="Assign to Projects">
-                <Grid Background="#FFE5E5E5"/>
+                <Grid Background="#FFE5E5E5">
+                    <ListBox x:Name="projektListAss" HorizontalAlignment="Left" Height="260" Margin="0,10,0,0" VerticalAlignment="Top" Width="100" SelectionChanged="projektListAss_SelectionChanged">
+                        <ListBox.DataContext>
+                            <Controller:ProjectDAO/>
+                        </ListBox.DataContext>
+                    </ListBox>
+                    <Button x:Name="refreshPList" Content="Refresh" HorizontalAlignment="Left" Margin="0,275,0,0" VerticalAlignment="Top" Width="90" Cursor="Hand" Click="refreshPList_Click"/>
+                    <ListBox x:Name="studentList" HorizontalAlignment="Left" Height="152" Margin="116,111,0,0" VerticalAlignment="Top" Width="84" SelectionChanged="studentList_SelectionChanged"/>
+                    <TextBox x:Name="applyBox" HorizontalAlignment="Left" Height="25" Margin="220,238,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="147" AutomationProperties.HelpText="Your name here" TextChanged="applyBox_TextChanged"/>
+                    <Button x:Name="applyButton" Content="Apply" HorizontalAlignment="Left" Margin="220,263,0,0" VerticalAlignment="Top" Width="147" Height="23" Click="applyButton_Click"/>
+                    <ListBox x:Name="descField" HorizontalAlignment="Left" Height="65" Margin="116,10,0,0" VerticalAlignment="Top" Width="201"/>
+                </Grid>
             </TabItem>
             <TabItem Header="Project Management">
                 <Grid Background="#FFE5E5E5"/>
             </TabItem>
-            <TabItem Header="Logs" Height="22" VerticalAlignment="Top">
+            <TabItem Header="Logs" Height="22" VerticalAlignment="Bottom" Margin="-2,-2,-2,2">
                 <Grid Background="#FFE5E5E5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="39*"/>
+                        <ColumnDefinition Width="164*"/>
+                    </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="1*" />
                         <RowDefinition Height="9*" />
                     </Grid.RowDefinitions>
 
-                    <ListView x:Name="LogList" Grid.Row="1" HorizontalAlignment="Stretch" Margin="10,10,10,10" VerticalAlignment="Stretch" LayoutUpdated="LogList_LayoutUpdated">
+                    <ListView x:Name="LogList" Grid.Row="1" HorizontalAlignment="Stretch" Margin="10,10,10,10" VerticalAlignment="Stretch" LayoutUpdated="LogList_LayoutUpdated" Grid.ColumnSpan="2">
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn x:Name="LogListColumn"/>
                             </GridView>
                         </ListView.View>
                     </ListView>
-                    <ComboBox x:Name="LogFilesDropDown" HorizontalAlignment="Left" Height="23" Margin="10,10,0,0" VerticalAlignment="Top" Width="194" SelectionChanged="LogFilesDropDown_SelectionChanged"/>
+                    <ComboBox x:Name="LogFilesDropDown" HorizontalAlignment="Left" Height="23" Margin="10,10,0,0" VerticalAlignment="Top" Width="194" SelectionChanged="LogFilesDropDown_SelectionChanged" Grid.ColumnSpan="2" Grid.RowSpan="2"/>
                 </Grid>
             </TabItem>
         </TabControl>
