@@ -29,6 +29,7 @@ namespace ProjectManager2000
         private readonly FileLogger logger = new FileLogger("logs");
         public MainWindow()
         {
+            logger.SaveLog("App start");
             projectDAO = new ProjectDAO();
             this.DataContext = this;
             projectDAO.SaveProject(new Project("Volunti", "Nice thing"));
@@ -58,6 +59,7 @@ namespace ProjectManager2000
 
         private void renderManageTab()
         {
+            logger.SaveLog("Rendering management tab");
             ProjectListMan.ItemsSource = projectDAO.getAll();
         }
 
@@ -93,6 +95,8 @@ namespace ProjectManager2000
         }
         private void RenderAssignTab()
         {
+            logger.SaveLog("Rendering assign tab");
+
             List<Model.Project> projectList = projectDao.getAll();
             foreach (Model.Project proj in projectList)
             {
