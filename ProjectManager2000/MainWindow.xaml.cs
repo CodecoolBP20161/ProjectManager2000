@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -23,20 +23,30 @@ namespace ProjectManager2000
     /// </summary>
     public partial class MainWindow : Window
     {
+        Controller.ProjectDAO projectDao = new Controller.ProjectDAO();
         private ProjectDAO projectDAO;
         private Project selectedItem;
         private readonly FileLogger logger = new FileLogger("logs");
         public MainWindow()
         {
+            logger.SaveLog("App start");
             projectDAO = new ProjectDAO();
-            InitializeComponent();
             this.DataContext = this;
+            projectDAO.SaveProject(new Project("Volunti", "Nice thing"));
+            projectDAO.SaveProject(new Project("HCCRM", "even nicer thing"));
+            projectDAO.SaveProject(new Project("Pisálnomkell.hu", "the whole world is a toilet!"));
+            projectDAO.SaveProject(new Project("Test Project4", "whatever"));
+
+            InitializeComponent();
             renderManageTab();
+            RenderAssignTab();
             RenderLogTab();
         }
+       
 
         private void RenderLogTab()
         {
+
             logger.SaveLog("Renderin Log Tab", FileLogger.LogType.Debug);
 
             string[] logFiles = Directory.GetFiles("logs/").Select(System.IO.Path.GetFileName).ToArray();
@@ -46,15 +56,11 @@ namespace ProjectManager2000
             FileLogger fileLogger = new FileLogger(logFiles[0]);
             LogDataGrid.ItemsSource = fileLogger.GetLogs();
         }
+
         private void renderManageTab()
         {
-            projectDAO.SaveProject(new Project("Volunti", "Nice thing"));
-            projectDAO.SaveProject(new Project("HCCRM", "even nicer thing"));
-            projectDAO.SaveProject(new Project("Pisálnomkell.hu", "the whole world is a toilet!"));
-            projectDAO.SaveProject(new Project("Test Project4", "whatever"));
+            logger.SaveLog("Rendering management tab");
             ProjectListMan.ItemsSource = projectDAO.getAll();
-
-
         }
 
         private void LogFilesDropDown_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -74,6 +80,60 @@ namespace ProjectManager2000
             FileLogger fileLogger = new FileLogger(LogFilesDropDown.SelectedItem.ToString());
             LogDataGrid.ItemsSource = fileLogger.GetLogs();
         }
+
+        private void projektListAss_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            studentList.Items.Clear();
+            Model.Project current = (Model.Project) projektListAss.SelectedItem;
+            if (current == null) return;
+            foreach (String participiant in current.Participants)
+            {
+                studentList.Items.Add(participiant);
+            }
+            descField.Items.Clear();
+            descField.Items.Add(current.Description);
+        }
+        private void RenderAssignTab()
+        {
+            logger.SaveLog("Rendering assign tab");
+
+            List<Model.Project> projectList = projectDao.getAll();
+            foreach (Model.Project proj in projectList)
+            {
+                projektListAss.Items.Add(proj);
+            }
+        }
+
+        private void refreshPList_Click(object sender, RoutedEventArgs e)
+        {
+            projektListAss.Items.Clear();
+            List<Model.Project> projectList = projectDao.getAll();
+            foreach (Model.Project proj in projectList)
+            {
+                projektListAss.Items.Add(proj);
+            }
+        }
+
+        private void studentList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void applyBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            
+        }
+
+        private void applyButton_Click(object sender, RoutedEventArgs e)
+        {
+            String newParticipiant = applyBox.Text;
+            Model.Project current = (Model.Project) projektListAss.SelectedItem;
+            if (current == null) return;
+            current.AddParticipant(newParticipiant);
+            logger.SaveLog(current.Participants.ToString(), FileLogger.LogType.Debug);
+            projectDao.UpdateProject(current);
+        }
+
         private void DeleteButton_Click(object sender, EventArgs e)
         {
             try
@@ -89,6 +149,7 @@ namespace ProjectManager2000
                 ProjectListMan.ItemsSource = projectDAO.getAll();
             }
         }
+
         private void CreateButton_Click(object sender, RoutedEventArgs e)
         {
             String projectName = projectNameInput.Text;
@@ -100,11 +161,6 @@ namespace ProjectManager2000
         private void ProjectListMan_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             selectedItem = (Project) ProjectListMan.SelectedItem;
-        }
-
-        private void LogList_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
         }
     }
 }

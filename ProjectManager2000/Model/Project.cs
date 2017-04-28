@@ -39,7 +39,7 @@ namespace ProjectManager2000.Model
             return Id + "," +
                    Name + "," +
                    Description + "," +
-                   "{" + string.Join(";", Participants.ToArray()) + "}" + "," +
+                   "{" + string.Join(";", Participants.ToArray()).Trim(';') + "}" + "," +
                    TimeOfCreation;
         }
 

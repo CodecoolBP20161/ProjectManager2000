@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ProjectManager2000.Model;
 using System.IO;
+using ProjectManager2000.Util;
 
 namespace ProjectManager2000.Controller
 {
@@ -12,6 +13,7 @@ namespace ProjectManager2000.Controller
     {
         private const string Path = "Data/";
         private const string FileName = "Projects";
+        private readonly FileLogger _logger = new FileLogger("daoLogs");
 
         public ProjectDAO()
         {
@@ -30,6 +32,8 @@ namespace ProjectManager2000.Controller
                 file.WriteLine(project.ToString());
                 file.Close();
             }
+
+            _logger.SaveLog($"Project {project.Name} saved");
         }
 
         public List<Project> getAll()
@@ -38,6 +42,8 @@ namespace ProjectManager2000.Controller
             if (allProjects.Count == 0) return null;
             var projects = new List<Project>();
             allProjects.ForEach((projectString) => projects.Add(Project.fromString(projectString)));
+
+            _logger.SaveLog("All projects are fetched");
             return projects;
         }
 
@@ -58,7 +64,6 @@ namespace ProjectManager2000.Controller
                     lines.Add(line);
 
                 }
-
             }
             using (StreamWriter writer = new StreamWriter(Path + FileName, false))
             {
@@ -67,6 +72,8 @@ namespace ProjectManager2000.Controller
                         writer.WriteLine(newline.Trim());
                 }
             }
+
+            _logger.SaveLog($"Project: {project.Name} updated");
         }
 
         public bool Exists(Project project)
