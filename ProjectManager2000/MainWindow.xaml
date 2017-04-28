@@ -1,4 +1,4 @@
-﻿<Window x:Class="ProjectManager2000.MainWindow"
+<Window x:Class="ProjectManager2000.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -7,15 +7,70 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="387" Width="424">
     <Grid>
-        <TabControl HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="45*"/>
+            <ColumnDefinition Width="59*"/>
+        </Grid.ColumnDefinitions>
+        <TabControl HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.ColumnSpan="2">
             <TabItem Header="Assign to Projects">
                 <Grid Background="#FFE5E5E5"/>
             </TabItem>
             <TabItem Header="Project Management">
-                <Grid Background="#FFE5E5E5"/>
+                <Grid Background="#FFE5E5E5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*" />
+                        <RowDefinition Height="9*" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*" />
+                        <ColumnDefinition Width="3*" />
+                    </Grid.ColumnDefinitions>
+                    <Button Grid.Column="0" Grid.Row="0" Name="Delete" Content="Delete" HorizontalAlignment="Center" Margin="0,5,0,0" 
+                                Width="75"  RenderTransformOrigin="-0.733,0.476" Click="DeleteButton_Click" Height="21" VerticalAlignment="Top" />
+                    <ListView x:Name="ProjectListMan" SelectionMode="Single" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Stretch" Margin="5,5,0,5" VerticalAlignment="Stretch" LayoutUpdated="LogList_LayoutUpdated" SelectionChanged="ProjectListMan_SelectionChanged">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="Id"   Width="Auto" DisplayMemberBinding="{Binding Id, UpdateSourceTrigger=PropertyChanged}" />
+                                <GridViewColumn Header="Name"   Width="Auto" DisplayMemberBinding="{Binding Name, UpdateSourceTrigger=PropertyChanged}" />
+                                <GridViewColumn Header="Description"   Width="Auto" DisplayMemberBinding="{Binding Description, UpdateSourceTrigger=PropertyChanged}" />
+                                <GridViewColumn Header="Created"   Width="Auto" DisplayMemberBinding="{Binding TimeOfCreation, UpdateSourceTrigger=PropertyChanged}" />
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+
+
+                    <Grid Grid.Column="1" HorizontalAlignment="Stretch"  Margin="0,0,0,0" Grid.Row="1" VerticalAlignment="Stretch" Background="#FFE5E5E5">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="2*" />
+                            <RowDefinition Height="4*" />
+                            <RowDefinition Height="2*" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="4*" />
+                        </Grid.ColumnDefinitions>
+
+                        <Button Grid.Column="1" Grid.Row="2" Name="Create" Content="Create" HorizontalAlignment="Center" Margin="10,10,10,10" 
+                                VerticalAlignment="Bottom" Width="75" Click="CreateButton_Click" />
+
+                        <TextBox Name="projectNameInput" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Stretch" Height="23" Margin="10,5,10,0" TextWrapping="NoWrap" Text="Name" VerticalAlignment="Top" />
+                        <RichTextBox Name="projectDescInput" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Stretch"  Margin="10,0,10,0" VerticalAlignment="Stretch">
+                            <FlowDocument>
+                                <Paragraph>
+                                    <Run Text="Description"/>
+                                    <Run Text="about your Project"/>
+                                </Paragraph>
+                            </FlowDocument>
+                        </RichTextBox>
+                    </Grid>
+                </Grid>
             </TabItem>
             <TabItem Header="Logs" Height="22" VerticalAlignment="Top">
                 <Grid Background="#FFE5E5E5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="40*"/>
+                        <ColumnDefinition Width="135*"/>
+                        <ColumnDefinition Width="231*"/>
+                    </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="1*" />
                         <RowDefinition Height="9*" />
