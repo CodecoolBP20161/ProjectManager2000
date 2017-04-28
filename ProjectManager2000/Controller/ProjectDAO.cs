@@ -10,15 +10,13 @@ namespace ProjectManager2000.Controller
 {
     class ProjectDAO
     {
-        public string FileName { get; set; }
         private const string Path = "Data/";
+        private const string FileName = "Projects";
 
         public ProjectDAO()
         {
-            FileName = "Projects";
+           
             Directory.CreateDirectory("Data");
-
-            if (File.Exists(Path + FileName)) return;
             var file = File.CreateText(Path + FileName);
             file.Close();
         }
@@ -36,7 +34,8 @@ namespace ProjectManager2000.Controller
 
         public List<Project> getAll()
         {
-            List<string> allProjects = File.ReadAllLines(FileName).ToList();
+            List<string> allProjects = File.ReadAllLines(Path + FileName).ToList();
+            if (allProjects.Count == 0) return null;
             var projects = new List<Project>();
             allProjects.ForEach((projectString) => projects.Add(Project.fromString(projectString)));
             return projects;
@@ -52,7 +51,7 @@ namespace ProjectManager2000.Controller
                 while ((line = reader.ReadLine()) != null)
                 {
                     String[] split = line.Split(',');
-                    if (Convert.ToInt64(split[0]) == project.id)
+                    if (Convert.ToInt64(split[0]) == project.Id)
                     {
                         line = project.ToString();
                     }
@@ -65,7 +64,7 @@ namespace ProjectManager2000.Controller
             {
                 {
                     foreach (String newline in lines)
-                        writer.WriteLine(newline);
+                        writer.WriteLine(newline.Trim());
                 }
             }
         }
@@ -79,7 +78,7 @@ namespace ProjectManager2000.Controller
                 while ((line = reader.ReadLine()) != null)
                 {
                     String[] split = line.Split(',');
-                    if (Convert.ToInt64(split[0]) == project.id)
+                    if (Convert.ToInt64(split[0]) == project.Id)
                     {
                         return true;
                     }
@@ -100,13 +99,13 @@ namespace ProjectManager2000.Controller
                 while ((line = reader.ReadLine()) != null)
                 {
                     String[] split = line.Split(',');
-                    if (!(Convert.ToInt64(split[0]) == project.id)) lines.Add(line);
+                    if (!(Convert.ToInt64(split[0]) == project.Id)) lines.Add(line);
                 }
             }
             using (StreamWriter writer = new StreamWriter(Path + FileName, false))
             {
                     foreach (String newline in lines)
-                        writer.WriteLine(newline);
+                        writer.WriteLine(newline.Trim());
             }
         }
     }
